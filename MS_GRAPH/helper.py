@@ -8,7 +8,8 @@ from settings import settings
 
 
 
-PICKLE_PATH = os.path.join(os.getcwd(),settings["PICKLE_NAME"])
+#PICKLE_PATH = os.path.join(os.getcwd(),settings["PICKLE_NAME"])
+PICKLE_PATH = "C:\VM_AUTOMATION\MS_GRAPH\MS-GRAPH-token.pickle"
 
 
 def create_pickle(response,file_path=PICKLE_PATH) :

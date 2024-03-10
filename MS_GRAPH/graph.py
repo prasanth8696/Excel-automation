@@ -2,8 +2,8 @@ import os
 import webbrowser
 import requests
 from msal import PublicClientApplication,ConfidentialClientApplication
-from helper import load_pickle,create_pickle,verify_token,PICKLE_PATH
-from settings import settings
+from .helper import load_pickle,create_pickle,verify_token,PICKLE_PATH
+from .settings import settings
 
 
 CLIENT_ID = settings["CLIENT_ID"]
@@ -58,13 +58,13 @@ def get_access_token(code="") :
 
             return response.json()["access_token"]
         else :
-            print(response.contentt)
+            print(response.content)
     else :
 
         load_pickle()
 
         if not verify_token() :
-            renew_access_token(os.environ["REFERSH_TOKEN"])
+            renew_access_token(os.environ["REFRESH_TOKEN"])
 
     
 

@@ -3,7 +3,7 @@ settings = {
 
     "CLIENT_SECRET" : "gzN8Q~DFjphZH3sAdUszw_D~ee1_J2XZ5PxhfcnB",
 
-    "SCOPES" : ["User.Read"],
+    "SCOPES" :  ["User.Read","Mail.Send","Mail.Read","Mail.ReadBasic"],
 
     "PICKLE_PATH" : "",
 
