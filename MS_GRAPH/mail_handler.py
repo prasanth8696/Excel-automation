@@ -42,6 +42,36 @@ def draft_attachments(attachments) :
 
     return formatted_attachments_list
 
+#download Attachments 
+def download_attachments(mail_id,headers,save_dir=os.getcwd()) :
+    try :
+        API_ENDPOINT = f"https://graph.microsoft.com/v1.0/me/messages/{mail_id}/attachments"
+        response = requests.get(url=API_ENDPOINT,headers=headers)
+
+        attachments_list = response.json()["value"]["attachment"]
+
+        attachments_path_list = []
+
+        for attachment in attachments_list :
+            attachment_name = attachment["name"]
+            attachment_id = attachment["id"]
+
+            API_ENDPOINT = f"https://graph.microsoft.com/v1.0/me/messages/{mail_id}/attachments/{attachment_id}/$value"
+
+            MIME_content = requests.get(url=API_ENDPOINT,headers=headers)
+
+            with open(os.path.join(save_dir,attachment_name),"wb") as file :
+                file.write(MIME_content.content)
+                attachments_path_list.append(save_dir,attachment_name)
+
+        return attachments_path_list
+
+
+    except Exception as e :
+        print("exception raised",e)
+        return False
+
+
 
 
 #send mail
@@ -104,7 +134,93 @@ def send_mail(subject="",content="",toRecipients=[],ccRecipients=[],is_attachmen
     
     else :
         return {"status_code" : response.status_code,"message" : response.json()}
+    
 
+
+def list_messages(select="",top="",filter="",save_dir="") :
+
+    #It will list first 10 messages in mailbox
+    API_ENDPOINT = "https://graph.microsoft.com/v1.0/me/messages"
+
+    headers = {
+                    "Authorization" : "Bearer " + os.environ["ACCESS_TOKEN"],
+                    "Content-Type" : "application/json"
+    }
+
+    params = {}
+
+    if select :
+        params["select"] = select
+    if top : 
+        params["top"] = top
+    if filter :
+        params["filter"] = filter
     
+
+
+    response = requests.get(API_ENDPOINT,params=params,headers=headers)
+
+    if not response.status_code == 200 :
+        return {"status_code" : response.status_code,"message" : response.json()}
     
+    emails = response.json()["value"]
+
+    formatted_mail_list = []
+
+    for email in emails :
+        if email["hasAttachments"] :
+            email["attachmnets_path_list"] = download_attachments(email["id"],headers)
+            formatted_mail_list.append(email)
+        else :
+            formatted_mail_list.append(email)
+
+    return formatted_mail_list
+        
+
+
+
+
+def list_message_from_mail_folder(folderId="inbox",select="",top="",filter="",save_dir="") :
+
+    API_ENDPOINT = f"https://graph.microsoft.com/v1.0/me/mailFolders/{folderId}/messages"
+
+    headers = {
+                    "Authorization" : "Bearer " + os.environ["ACCESS_TOKEN"],
+                    "Content-Type" : "application/json"
+    }
+
+    params = {}
+
+    if select :
+        params["select"] = select
+    if top : 
+        params["top"] = top
+    if filter :
+        params["filter"] = filter
+        
+
+
+    response = requests.get(API_ENDPOINT,params=params,headers=headers)
+
+    if not response.status_code == 200 :
+        return {"status_code" : response.status_code,"message" : response.json()}
     
+    emails = response.json()["value"]
+
+    formatted_mail_list = []
+
+    for email in emails :
+        if email["hasAttachments"] :
+            email["attachmnets_path_list"] = download_attachments(email["id"],headers)
+            formatted_mail_list.append(email)
+        else :
+            formatted_mail_list.append(email)
+
+    return formatted_mail_list
+        
+
+
+
+
+
+
