@@ -5,7 +5,7 @@ settings = {
 
     "SCOPES" :  ["User.Read","Mail.Send","Mail.Read","Mail.ReadBasic"],
 
-    "PICKLE_PATH" : "",
+    "PICKLE_PATH" : r"C:\VM_AUTOMATION\MS_GRAPH\MS-GRAPH-token.pickle",
 
     "PICKLE_NAME" : "MS-GRAPH-token.pickle"
 

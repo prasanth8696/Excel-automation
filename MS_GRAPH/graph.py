@@ -2,7 +2,7 @@ import os
 import webbrowser
 import requests
 from msal import PublicClientApplication,ConfidentialClientApplication
-from .helper import load_pickle,create_pickle,verify_token,PICKLE_PATH
+from .helper import load_pickle,create_pickle,verify_token,generate_scope,PICKLE_PATH
 from .settings import settings
 
 
@@ -20,6 +20,8 @@ def get_authorization_code() :
     )
 
     authorize_url = client.get_authorization_request_url(SCOPES)
+
+    
 
     webbrowser.open(url=authorize_url,new=True)
 
@@ -46,7 +48,7 @@ def get_access_token(code="") :
             "client_secret" : CLIENT_SECRET,
             "grant_type" : "authorization_code",
             "code" : code,
-            "scope" : "user.read"
+            "scope" : generate_scope(settings["SCOPES"])
         }
         headers = {"Content-Type" : "application/x-www-form-urlencoded"}
 
@@ -78,7 +80,7 @@ def renew_access_token(refresh_token="") :
         "client_secret" : CLIENT_SECRET,
         "grant_type" : "refresh_token",
         "refresh_token" : refresh_token,
-        "scope" : "user.read"
+        "scope" :  generate_scope(settings["SCOPES"],auth=True)
     }
     headers = {"Content-Type" : "application/x-www-form-urlencoded"}
 

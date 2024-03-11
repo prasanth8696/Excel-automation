@@ -1,10 +1,12 @@
 import os
 import json
+from .settings import settings
+
 
 
 def set_env() :
 
-    with open("env.json","r") as file :
+    with open(settings["env_path"],"r") as file :
 
         env_data = json.load(file)
 

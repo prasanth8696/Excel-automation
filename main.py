@@ -1,11 +1,11 @@
 import os
-from download_handler import download_url
-from csv_handler import convert_csv_to_xlsx
-from handler import set_env
-from MS_GRAPH import send_mail
-from MS_GRAPH import get_access_token
+from .download_handler import download_url
+from .csv_handler import convert_csv_to_xlsx
+from .handler import set_env
+from .MS_GRAPH import send_mail
+from .MS_GRAPH import get_access_token
 
-from settings import settings
+from .settings import settings
 
 
 def main() :

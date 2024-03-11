@@ -1,7 +1,7 @@
 import os
 import pickle
 import requests
-from settings import settings
+from .settings import settings
 
 
 
@@ -9,11 +9,18 @@ from settings import settings
 
 
 #PICKLE_PATH = os.path.join(os.getcwd(),settings["PICKLE_NAME"])
-PICKLE_PATH = "C:\VM_AUTOMATION\MS_GRAPH\MS-GRAPH-token.pickle"
+PICKLE_PATH = settings["PICKLE_PATH"]
 
 
 def create_pickle(response,file_path=PICKLE_PATH) :
 
+    #print(response.json())
+
+    # response_dict = {
+    #     "access_token" : response.json()["access_token"],
+    #     "refresh_token" : response.json()["refresh_token"],
+    #     "id_token" : response.json()["id_token"]
+    # }
     with open(file_path,"wb") as file :
 
         pickle.dump(response,file)
@@ -49,13 +56,15 @@ def verify_token() :
 
 
 
-def generate_scope() :
+def generate_scope(scopes=[],auth=False) :
 
-    current_scopes = settings["SCOPES"] 
 
     scopes_str = ""
 
-    for scope in current_scopes :
+    for scope in scopes :
         scopes_str += scope + " "
+
+    if auth :
+        scopes_str += "offline_access openid profile"
 
     return scopes_str
