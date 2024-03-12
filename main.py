@@ -42,8 +42,7 @@ def main() :
         #send mail to respective recipients
         mail_response = send_mail(
             subject="Qualys Daily Report",
-            content= """Hi team,
-                            here im attaching cleaned version of Qualys report  """,
+            content= """Hi team,here im attaching cleaned version of Qualys Daily Report  """,
             toRecipients=settings["toRecipients"],
             ccRecipients=settings["ccRecipients"],
             attachments=documents
@@ -54,7 +53,6 @@ def main() :
         #upload to Onedrive
         for file in documents :
             response = upload_to_onedrive(file_info=file,parent_id=settings["drive_folder_id"])
-            print(response)
             if response["status_code"] == 201 :
                 print(f"{file['file_path']} file uploaded")
 

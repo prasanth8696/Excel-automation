@@ -22,10 +22,11 @@ def upload_to_onedrive(drive="me",parent_id="root",file_info={}) :
    
     API_ENDPOINT = f"https://graph.microsoft.com/v1.0/me/drive/items/{parent_id}:/{file_info["file_name"]}:/content"
 
-
+    
     headers = {
                     "Authorization" : "Bearer " + os.environ["ACCESS_TOKEN"]
     }
+    
     if check_file_size(file_info) > 200 :
         pass
     else:
