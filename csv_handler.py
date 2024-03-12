@@ -58,4 +58,4 @@ def convert_csv_to_xlsx(file_path:str) -> dict :
 
     print(f"{os.path.basename(excel_path)} converted successfully")
 
-    return {"status_code" : 0,file_path : excel_path}
+    return {"status_code" : 0,"file_path" : excel_path}

@@ -3,7 +3,7 @@ settings = {
 
     "CLIENT_SECRET" : "gzN8Q~DFjphZH3sAdUszw_D~ee1_J2XZ5PxhfcnB",
 
-    "SCOPES" :  ["User.Read","Mail.Send","Mail.Read","Mail.ReadBasic"],
+    "SCOPES" :  ["User.Read","Mail.Send","Mail.Read","Mail.ReadBasic","Files.Read","Files.ReadWrite","Files.Read.All","Files.ReadWrite.All"],
 
     "PICKLE_PATH" : r"C:\VM_AUTOMATION\MS_GRAPH\MS-GRAPH-token.pickle",
 

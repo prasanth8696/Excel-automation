@@ -4,6 +4,7 @@ from .csv_handler import convert_csv_to_xlsx
 from .handler import set_env
 from .MS_GRAPH import send_mail
 from .MS_GRAPH import get_access_token
+from .MS_GRAPH.drive_handler import upload_to_onedrive
 
 from .settings import settings
 
@@ -31,10 +32,10 @@ def main() :
         #convert csv to xlsx format
         convert_response = convert_csv_to_xlsx(download_response["file_path"])
 
-        attachments = [
+        documents = [
             {
                 "file_path" : convert_response["file_path"],
-                "name" : "Converted_Qualys_Daily_Report"
+                "file_name" : "Converted_Qualys_Daily_Report.xlsx"
             }
         ]
 
@@ -45,11 +46,17 @@ def main() :
                             here im attaching cleaned version of Qualys report  """,
             toRecipients=settings["toRecipients"],
             ccRecipients=settings["ccRecipients"],
-            attachments=attachments
+            attachments=documents
         )
+        print(mail_response["message"])
 
         
         #upload to Onedrive
+        for file in documents :
+            response = upload_to_onedrive(file_info=file,parent_id=settings["drive_folder_id"])
+            print(response)
+            if response["status_code"] == 201 :
+                print(f"{file['file_path']} file uploaded")
 
 
     except Exception as e :

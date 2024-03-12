@@ -35,7 +35,7 @@ def draft_attachments(attachments) :
                 attachment_template = {
                     "@odata.type" : "#microsoft.graph.fileAttachment",
                     "contentBytes" : media_content.decode("utf-8"),
-                    "name" : attachment["name"]
+                    "name" : attachment["file_name"]
 
                 }
                 formatted_attachments_list.append(attachment_template)
@@ -84,7 +84,7 @@ def send_mail(subject="",content="",toRecipients=[],ccRecipients=[],is_attachmen
         param: recipients => whom you need to send (to address), DEFAULT => []
         param: ccrecipients => cc address of the mail, DEFAULT => []
         param: is_attachments => if attachments need to send enable this param, DEFAULT => True
-        param: attachements => list of attachment files path, DEFAULT =>[] or [{"file_path" : "","name" : ""}] 
+        param: attachements => list of attachment files path, DEFAULT =>[] or [{"file_path" : "","file_name" : ""}] 
         param: importance => priority of the mail, DEFAULT => normal
         param: save_to_send_items => if you want save mail into saveitems folder enable this param, DEFAULT => True
     """
